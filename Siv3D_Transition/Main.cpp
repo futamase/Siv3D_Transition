@@ -3,25 +3,48 @@
 
 #include "Fade.h"
 
+enum class Scene
+{
+	Title, 
+	Game,
+};
+
 void Main()
 {
-	Texture img(L"Example/Windmill.png");
+	Texture img(L"Windmill.png");
+	Texture img2(L"Siv3D-kun.png");
+
 	Font font(30);
 
 	Fade fade(L"mask00.png");
 
+	Scene scene = Scene::Title;
+
 	while (System::Update())
 	{
-		img.draw();
-		font(L"Text").draw();
 
-		if (Input::KeyU.clicked) 
+		if (scene == Scene::Title)
 		{
-			fade.FadeOut();
+			img.draw();
+			font(L"Text").draw();
+			if (Input::KeyEnter.clicked)
+			{
+				fade.FadeOut([&scene, &fade]()
+				{
+					scene = Scene::Game;
+					fade.FadeIn([]() 
+					{
+					});
+				});
+			}
 		}
-		if (Input::KeyI.clicked)
+		else if (scene == Scene::Game)
 		{
-			fade.FadeIn();
+			img2.draw();
+			if (Input::KeyI.clicked)
+			{
+				fade.FadeIn();
+			}
 		}
 		fade.Draw();
 	}
