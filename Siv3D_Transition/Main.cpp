@@ -16,7 +16,7 @@ void Main()
 
 	Font font(30);
 
-	Fade fade(L"mask00.png");
+	Fade fade(L"mask1.png");
 
 	Scene scene = Scene::Title;
 
